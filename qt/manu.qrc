@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/home/zz/work-src/github/qt/images">
+        <file>images/new.jpg</file>
+    </qresource>
+</RCC>
