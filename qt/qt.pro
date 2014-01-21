@@ -25,5 +25,4 @@ FORMS += \
     mainwindow.ui
 
 HEADERS += \
-    ../build-qt-Desktop_Qt_5_2_0_GCC_32bit-Debug/ui_mainwindow.h \
     mainwindow.h
