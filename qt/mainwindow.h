@@ -5,8 +5,13 @@
 
 class CMainWindow : public QMainWindow
 {
-    public:
+    Q_OBJECT
+public:
         CMainWindow();
+        ~CMainWindow()
+        {
+
+        }
 
 private slots:
         void on_file_new_triggered();
@@ -15,8 +20,11 @@ private slots:
 
         void on_file_quit_triggered();
 
+        void on_textBrowser_textChanged();
+
 private:
         bool isSaved;
+        bool needSave;
         QString curFile;
         void do_file_new();
         void do_file_save();

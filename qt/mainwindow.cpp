@@ -10,8 +10,12 @@ CMainWindow::CMainWindow()
 {
     ui = new Ui::MainWindow;
     ui->setupUi(this);
-    QObject::connect(ui->file_new, SIGNAL(triggered()), this, on_file_new_triggered);
+    QObject::connect(ui->file_new, SIGNAL(triggered()), this, SLOT(on_file_new_triggered()));
+    QObject::connect(ui->file_quit, SIGNAL(triggered()), this, SLOT(on_file_quit_triggered()));
+    QObject::connect(ui->file_save, SIGNAL(triggered()), this, SLOT(on_file_save_triggered()));
+    //QObject::connect(ui->textBrowser, SIGNAL(textChanged()), this, SLOT(on_textBrowser_textChanged()));
     isSaved = false;
+    needSave = false;
     curFile = tr("未命名.txt");
     //curFile = "hello";
     setWindowTitle(curFile);
@@ -37,7 +41,7 @@ void CMainWindow::do_file_save()
 
 void CMainWindow::do_file_saveOrNot()
 {
-    if (ui->textBrowser->document()->isModified())
+    if (!ui->textBrowser->document()->isEmpty() && ui->textBrowser->document()->isModified())
     {
         QMessageBox box;
         box.setWindowTitle(tr("警告"));
@@ -45,13 +49,16 @@ void CMainWindow::do_file_saveOrNot()
         box.setText(curFile +tr("文件有未保存修改，是否保存？"));
         box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         if (box.exec() == QMessageBox::Yes)
+        {
             do_file_save();
+        }
+        //needSave = false;
     }
 }
 
 void CMainWindow::do_file_saveAs()
 {
-    qDebug() << "curFile" << curFile << "\n" ;
+    //qDebug() << "curFile" << curFile << "\n" ;
     QString filename = QFileDialog::getSaveFileName(this,tr("另存为"), curFile);
     if (!filename.isEmpty())
         saveFile(filename);
@@ -90,4 +97,9 @@ void CMainWindow::on_file_quit_triggered()
 {
     do_file_saveOrNot();
     QApplication::quit();
+}
+
+void CMainWindow::on_textBrowser_textChanged()
+{
+    needSave = true;
 }
